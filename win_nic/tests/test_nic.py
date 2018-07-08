@@ -39,6 +39,7 @@ class TestNic(unittest.TestCase):
             win32_networkadapter_base_attribute_cmd + 'LastErrorCode': 'LastErrorCode\n0',
             win32_networkadapter_base_attribute_cmd + 'MACAddress': 'MACAddress\n00:00:00:00:00:00',
             win32_networkadapter_base_attribute_cmd + 'Manufacturer': 'NetConnectionID\nAcme Corporation',
+            win32_networkadapter_base_attribute_cmd + 'MaxNumberControlled': 'MaxNumberControlled\n0',
             win32_networkadapter_base_attribute_cmd + 'Name': 'Name\nAcme 1234 Gigabit Network Connection',
             win32_networkadapter_base_attribute_cmd + 'NetConnectionID': 'NetConnectionID\nLocal Area Connection 0',
             win32_networkadapter_base_attribute_cmd + 'NetConnectionStatus': 'NetConnectionStatus\n2',
@@ -46,8 +47,14 @@ class TestNic(unittest.TestCase):
             win32_networkadapter_base_attribute_cmd + 'PNPDeviceID': 'PNPDeviceID\nPCI\\DUMMY_STUFF\\0123456789',
             win32_networkadapter_base_attribute_cmd + 'PowerManagementSupported': 'PowerManagementSupported\nTRUE',
             win32_networkadapter_base_attribute_cmd + 'ProductName': 'ProductName\nDummy Adapter',
-            win32_networkadapter_base_attribute_cmd + 'Speed': 'Speed\n1000000000',
             win32_networkadapter_base_attribute_cmd + 'ServiceName': 'ServiceName\ndummyservice',
+            win32_networkadapter_base_attribute_cmd + 'Speed': 'Speed\n1000000000',
+            win32_networkadapter_base_attribute_cmd + 'SystemCreationClassName': 'SystemCreationClassName\nWin32_ComputerSystem',
+            win32_networkadapter_base_attribute_cmd + 'SystemName': 'SystemName\nTESTPC',
+			win32_networkadapter_base_attribute_cmd + 'TimeOfLastReset': 'TimeOfLastReset\n20180131121234.123456-789',
+            win32_networkadapterconfiguration_base_attribute_cmd + 'ArpAlwaysSourceRoute': 'ArpAlwaysSourceRoute\nFALSE',
+            win32_networkadapterconfiguration_base_attribute_cmd + 'ArpUseEtherSNAP': 'ArpUseEtherSNAP\nFALSE',
+            win32_networkadapterconfiguration_base_attribute_cmd + 'DatabasePath': 'DatabasePath\n%SystemRoot%\\System32\\drivers\\etc',
             win32_networkadapterconfiguration_base_attribute_cmd + 'IPAddress': 'IPAddress\n\n{"192.168.0.2", "0:0:0:0:0:0:0:1"}',
             win32_networkadapter_base_method_cmd + 'Disable': 'Method execution successful.\nOut Parameters:\nInstance of __PARAMETERS\n{\n       ReturnValue = 5;\n};',
             win32_networkadapter_base_method_cmd + 'Enable': 'Method execution successful.\nOut Parameters:\nInstance of __PARAMETERS\n{\n       ReturnValue = 5;\n};',
@@ -91,6 +98,16 @@ class TestNic(unittest.TestCase):
         self.assertEqual(str(self.test_nic.method.add_dns_server('8.8.8.8')), Baseline("""0"""))
 
     @mock.patch('subprocess.check_output', side_effect=_mock_check_output)
+    def test_arp_always_source_route(self, mocked_check_output):
+        """Test arp_always_source_route property of the Nic class."""
+        self.assertFalse(self.test_nic.property.arp_always_source_route)
+
+    @mock.patch('subprocess.check_output', side_effect=_mock_check_output)
+    def test_arp_use_ether_snap(self, mocked_check_output):
+        """Test arp_use_ether_snap property of the Nic class."""
+        self.assertFalse(self.test_nic.property.arp_use_ether_snap)
+    
+    @mock.patch('subprocess.check_output', side_effect=_mock_check_output)
     def test_availability(self, mocked_check_output):
         """Test availability property of the Nic class."""
         self.assertEqual(self.test_nic.property.availability, NicAvailability(3))
@@ -111,6 +128,12 @@ class TestNic(unittest.TestCase):
     def test_config_manager_user_config(self, mocked_check_output):
         """Test config_manager_user_config property of the Nic class."""
         self.assertFalse(self.test_nic.property.config_manager_user_config)
+
+    @mock.patch('subprocess.check_output', side_effect=_mock_check_output)
+    def test_database_path(self, mocked_check_output):
+        """Test database_path property of the Nic class."""
+        self.assertEqual(self.test_nic.property.database_path,
+                         Baseline("""%SystemRoot%\\System32\\drivers\\etc"""))
 
     def test_dunder_repr(self):
         """Test repr magic method property of the NIC class."""
@@ -215,6 +238,12 @@ class TestNic(unittest.TestCase):
                          Baseline("""Acme Corporation"""))
 
     @mock.patch('subprocess.check_output', side_effect=_mock_check_output)
+    def test_max_number_controlled(self, mocked_check_output):
+        """Test max_number_controlled property of the Nic class."""
+        self.assertEqual(str(self.test_nic.property.max_number_controlled),
+                         Baseline("""0"""))
+
+    @mock.patch('subprocess.check_output', side_effect=_mock_check_output)
     def test_name(self, mocked_check_output):
         """Test name property of the Nic class."""
         self.assertEqual(self.test_nic.property.name,
@@ -284,6 +313,24 @@ class TestNic(unittest.TestCase):
     def test_set_static_address(self, mocked_check_output):
         """Test set_static_address method of the Nic class."""
         self.assertEqual(str(self.test_nic.method.set_static_address('192.168.0.2', '255.255.255.0', '192.168.0.1')), Baseline("""0"""))
+
+    @mock.patch('subprocess.check_output', side_effect=_mock_check_output)
+    def test_system_creation_class_name(self, mocked_check_output):
+        """Test system_creation_class_name property of the Nic class."""
+        self.assertEqual(self.test_nic.property.system_creation_class_name,
+                         Baseline("""Win32_ComputerSystem"""))
+        
+    @mock.patch('subprocess.check_output', side_effect=_mock_check_output)
+    def test_system_name(self, mocked_check_output):
+        """Test system_name property of the Nic class."""
+        self.assertEqual(self.test_nic.property.system_name,
+                         Baseline("""TESTPC"""))
+
+    @mock.patch('subprocess.check_output', side_effect=_mock_check_output)
+    def test_time_of_last_reset(self, mocked_check_output):
+        """Test time_of_last_reset property of the Nic class."""
+        self.assertEqual(str(self.test_nic.property.time_of_last_reset),
+                         Baseline("""2018-01-31 12:12:34"""))
 
     @mock.patch('subprocess.call', side_effect=_mock_call)
     def test_use_dhcp(self, mocked_check_output):

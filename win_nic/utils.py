@@ -1,5 +1,6 @@
 ﻿"""Module containing utilities, such as parsers and executors."""
 
+import datetime
 import os
 import subprocess
 
@@ -22,6 +23,18 @@ def parse_array(raw_array):
     array_strip_brackets = raw_array.replace('{', '').replace('}', '')
     array_strip_spaces = array_strip_brackets.replace('"', '').replace(' ', '')
     return array_strip_spaces.split(',')
+
+
+def parse_datetime(raw_datetime):
+    """Parse a WMIC datetime."""
+    stripped_suffix = raw_datetime.split('.')[0]
+    year = int(stripped_suffix[0:4])
+    month = int(stripped_suffix[4:6])
+    day = int(stripped_suffix[6:8])
+    hour = int(stripped_suffix[8:10])
+    minute = int(stripped_suffix[10:12])
+    second = int(stripped_suffix[12:14])
+    return datetime.datetime(year, month, day, hour, minute, second)
 
 
 def _strip_wmic_response(wmic_resp):

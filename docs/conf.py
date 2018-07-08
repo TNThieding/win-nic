@@ -14,7 +14,7 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../win_nic'))
+sys.path.insert(0, os.path.abspath('..'))
 
 
 # -- Project information -----------------------------------------------------
@@ -24,7 +24,7 @@ copyright = u'2018, Tyler N. Thieding'
 author = u'Tyler N. Thieding'
 
 # The short X.Y version
-version = u'1.0.0'
+version = u'1.1.0'
 # The full version, including alpha/beta/rc tags
 release = version
 

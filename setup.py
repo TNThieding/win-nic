@@ -10,7 +10,7 @@ setuptools.setup(
         ],
 
     name             = 'win-nic',
-    version          = '1.0.1',
+    version          = '1.1.0',
     author           = 'Tyler N. Thieding',
     author_email     = 'python@thieding.com',
     maintainer       = 'Tyler N. Thieding',
