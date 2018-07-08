@@ -5,11 +5,12 @@ with open("README.rst", "r") as fh:
 
 setuptools.setup(
     install_requires = [
+        'enum34',
         'texttable'
         ],
 
     name             = 'win-nic',
-    version          = '1.0.0',
+    version          = '1.0.1',
     author           = 'Tyler N. Thieding',
     author_email     = 'python@thieding.com',
     maintainer       = 'Tyler N. Thieding',
