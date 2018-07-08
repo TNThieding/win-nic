@@ -172,5 +172,5 @@ class NicProperty(object):
 
     @property
     def time_of_last_reset(self):
-		return utils.parse_datetime(raw_datetime = self._get_atr_win32_networkadapter('TimeOfLastReset'))
+        return utils.parse_datetime(raw_datetime = self._get_atr_win32_networkadapter('TimeOfLastReset'))
 
