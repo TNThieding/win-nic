@@ -23,7 +23,7 @@ class NicAvailability(IntEnum):
     OFF_LINE = 8
     """Off Line"""
     OFF_DUTY = 9
-    """Odd Duty"""
+    """Off Duty"""
     DEGRADED = 10
     """Degraded"""
     NOT_INSTALLED = 11
