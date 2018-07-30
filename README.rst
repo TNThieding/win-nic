@@ -11,7 +11,7 @@ win-nic
 
 .. image:: media/coverage_manual.svg
 
-Python package to interface with network intetrface cards (NICs) on Windows-based
+Python package to interface with network interface cards (NICs) on Windows-based
 computers. This package heavily wraps the Windows management instrumentation command-line
 (WMIC) and the netsh command-line utility via subprocess calls. No C dependencies or
 building from source files, just a lightweight and straightforward wrapper of utilities
@@ -23,7 +23,7 @@ Quick Start
 
 First, obtain a NIC instance via the NetworkAdapters class. To do this, instantiate
 NetworkAdapters and specify the desired NIC. Specify the target NIC by registry index,
-name, or conneciton ID (control panel name).
+name, or connection ID (control panel name).
 
 .. code-block:: python
 
