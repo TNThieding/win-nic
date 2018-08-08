@@ -5,11 +5,12 @@ win-nic
 .. image:: https://travis-ci.org/TNThieding/win-nic.svg?branch=master
     :target: https://travis-ci.org/TNThieding/win-nic
 
+.. image:: https://coveralls.io/repos/github/TNThieding/win-nic/badge.svg
+	:target: https://coveralls.io/github/TNThieding/win-nic
+
 .. image:: https://readthedocs.org/projects/win-nic/badge/?version=latest
     :target: https://win-nic.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
-
-.. image:: media/coverage_manual.svg
 
 Python package to interface with network intetrface cards (NICs) on Windows-based
 computers. This package heavily wraps the Windows management instrumentation command-line
