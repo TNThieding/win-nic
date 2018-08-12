@@ -27,7 +27,7 @@ name, or connection ID (control panel name).
 
 .. code-block:: python
 
-   >>> from win_nic.network_adapters import NetworkAdapters
+   >>> from win_nic import NetworkAdapters
    >>> this_pc_nics = NetworkAdapters()
    >>> ethernet_nic = this_pc_nics.get_nic(connection_id="Local Area Connection 1")
    
