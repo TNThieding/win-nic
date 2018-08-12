@@ -55,6 +55,7 @@ class TestNic(unittest.TestCase):
             win32_networkadapterconfiguration_base_attribute_cmd + 'ArpAlwaysSourceRoute': 'ArpAlwaysSourceRoute\nFALSE',
             win32_networkadapterconfiguration_base_attribute_cmd + 'ArpUseEtherSNAP': 'ArpUseEtherSNAP\nFALSE',
             win32_networkadapterconfiguration_base_attribute_cmd + 'DatabasePath': 'DatabasePath\n%SystemRoot%\\System32\\drivers\\etc',
+            win32_networkadapterconfiguration_base_attribute_cmd + 'DHCPEnabled': 'DHCPEnabled\nTRUE',
             win32_networkadapterconfiguration_base_attribute_cmd + 'IPAddress': 'IPAddress\n\n{"192.168.0.2", "0:0:0:0:0:0:0:1"}',
             win32_networkadapter_base_method_cmd + 'Disable': 'Method execution successful.\nOut Parameters:\nInstance of __PARAMETERS\n{\n       ReturnValue = 5;\n};',
             win32_networkadapter_base_method_cmd + 'Enable': 'Method execution successful.\nOut Parameters:\nInstance of __PARAMETERS\n{\n       ReturnValue = 5;\n};',
@@ -177,6 +178,11 @@ class TestNic(unittest.TestCase):
     def test_device_id(self, mocked_check_output):
         """Test device_id property of the Nic class."""
         self.assertEqual(self.test_nic.property.device_id, Baseline("""0"""))
+
+    @mock.patch('subprocess.check_output', side_effect=_mock_check_output)
+    def test_dhcp_enabled(self, mocked_check_output):
+        """Test installed property of the Nic class."""
+        self.assertTrue(self.test_nic.property.dhcp_enabled)
 
     @mock.patch('subprocess.check_output', side_effect=_mock_check_output)
     def test_disable(self, mocked_check_output):

@@ -81,6 +81,10 @@ class NicProperty(object):
         return self._get_atr_win32_networkadapter('DeviceID')
 
     @property
+    def dhcp_enabled(self):
+        return self._get_atr_win32_networkadapterconfiguration('DHCPEnabled') == 'TRUE'
+
+    @property
     def enabled_ctrl_panel(self):
         return self.net_connection_status != NicNetConnectionStatus.DISCONNECTED
 
