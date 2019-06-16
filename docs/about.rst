@@ -1,7 +1,6 @@
-=====
+#####
 About
-=====
-
+#####
 
 ************
 Contributors
@@ -13,7 +12,7 @@ Contributors
 Development
 ***********
 
-:Repository: https://github.com/TNThieding/win-nic
+:Repository: https://gitlab.com/TNThieding/win-nic
 :Backlog: https://trello.com/b/SYbiCLBg/python-package-kanban-board-win-nic
 
 *******

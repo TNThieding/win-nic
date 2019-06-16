@@ -1,23 +1,17 @@
 """Module containing network adapters class unit tests."""
 
 import sys
-import unittest
+from unittest import TestCase
+from unittest.mock import patch
+from io import StringIO
 
-import mock
 from baseline import Baseline
 
-from .. import network_adapters
-
-if sys.version_info > (3, 0):
-    # Python 3
-    from io import StringIO
-else:
-    # Python 2
-    from StringIO import StringIO
+from .. import _network_adapters
 
 
 # pylint: disable=too-many-public-methods, unused-argument
-class TestNic(unittest.TestCase):
+class TestNic(TestCase):
 
     """Execute network adapters class unit tests."""
 
@@ -37,12 +31,12 @@ class TestNic(unittest.TestCase):
         }
         return wmic_responses[command]
 
-    @mock.patch('subprocess.check_output', side_effect=_mock_check_output)
+    @patch('subprocess.check_output', side_effect=_mock_check_output)
     def setUp(self, mocked_check_output):  # pylint: disable=arguments-differ
         """Instantiate a network adapters class."""
-        self.test_adapters = network_adapters.NetworkAdapters()
+        self.test_adapters = _network_adapters.NetworkAdapters()
 
-    @mock.patch('subprocess.check_output', side_effect=_mock_check_output)
+    @patch('subprocess.check_output', side_effect=_mock_check_output)
     def test_dump(self, mocked_check_output):
         """Test dump method of NetworkAdapters."""
         _stdout = sys.stdout
@@ -61,14 +55,14 @@ class TestNic(unittest.TestCase):
 
             """))
 
-    @mock.patch('subprocess.check_output', side_effect=_mock_check_output)
+    @patch('subprocess.check_output', side_effect=_mock_check_output)
     def test_nic_name_map(self, mocked_check_output):
         """Test nic_name_map attribute of NetworkAdapters."""
         self.assertEqual(str(sorted(self.test_adapters.nic_name_map,
                                     key=self.test_adapters.nic_name_map.get)),
                          Baseline("""['Ethernet Adapter', 'Wi-Fi Adapter']"""))
 
-    @mock.patch('subprocess.check_output', side_effect=_mock_check_output)
+    @patch('subprocess.check_output', side_effect=_mock_check_output)
     def test_nic_connection_id_map(self, mocked_check_output):
         """Test nic_connection_id_map attribute of NetworkAdapters."""
         self.assertEqual(str(sorted(self.test_adapters.nic_connection_id_map,

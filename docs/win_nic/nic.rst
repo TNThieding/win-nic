@@ -5,7 +5,7 @@ win_nic.nic
 ===========
 
 .. module:: nic
-.. autoclass:: win_nic.nic.Nic
+.. autoclass:: win_nic.Nic
    :members:
 
 .. note:: Refer to the :doc:`API reference <../api_reference>` for information about

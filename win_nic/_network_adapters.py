@@ -2,12 +2,12 @@
 
 import texttable
 
-from . import utils
-from .nic import Nic
+from win_nic._nic import Nic
+from win_nic._utils import run_wmic_command
 
 
 # pylint: disable=too-few-public-methods
-class NetworkAdapters(object):
+class NetworkAdapters:
 
     """Network adapter discoverer class."""
 
@@ -16,14 +16,14 @@ class NetworkAdapters(object):
         self.nic_name_map = {}
 
         # Get the index and name of each NIC.
-        nic_rows = utils.run_wmic_command(['nic', 'get', 'Index,' 'Name'])
+        nic_rows = run_wmic_command(['nic', 'get', 'Index,' 'Name'])
         for nic in nic_rows:
             index = int(nic.split(' ')[0])
             name = ' '.join(nic.split(' ')[1:]).strip()
             self.nic_name_map[name] = index
 
         # Get the index and net connection ID of each NIC.
-        nic_rows = utils.run_wmic_command(['nic', 'get', 'Index,' 'NetConnectionID'])
+        nic_rows = run_wmic_command(['nic', 'get', 'Index,' 'NetConnectionID'])
         for nic in nic_rows:
             index = int(nic.split(' ')[0])
             name = ' '.join(nic.split(' ')[1:]).strip()
@@ -34,8 +34,8 @@ class NetworkAdapters(object):
         """Print a table of NICs to the console."""
         table_header = ['Index', 'Name', 'Connection ID']
         nic_list_raw = [list(filter(None, row.split('  ')))
-                        for row in utils.run_wmic_command(['nic', 'get', 'Index,', 'Name,',
-                                                           'NetConnectionID'])]
+                        for row in run_wmic_command(['nic', 'get', 'Index,', 'Name,',
+                                                     'NetConnectionID'])]
         nic_list_filled = [entry + [''] if len(entry) == 2 else entry for entry in nic_list_raw]
         nic_list_filled.insert(0, table_header)
         table = texttable.Texttable()
@@ -48,25 +48,28 @@ class NetworkAdapters(object):
         Note that only one parameter is used to discover the NIC.
 
         :param int index:
-            Index number of the network adapter, as stored in the system registry.
+            index number of the network adapter (as stored in the system registry)
 
         :param str name:
-            Label by which the object is known.
+            label by which the object is known
 
         :param str connection_id:
-            Name of the network connection as it appears in the Network Connections
-            Control Panel program.
+            name of the network connection as it appears in the Network Connections
+            Control Panel program
 
         :returns:
-            Windows network interface card (NIC) instance.
-        :rtype: win_nic.nic.Nic
+            Windows network interface card (NIC) instance
+
+        :rtype: win_nic.Nic
 
         """
         if index:
-            return Nic(index)
+            nic_instance = Nic(index)
         elif name:
-            return Nic(self.nic_name_map[name])
+            nic_instance = Nic(self.nic_name_map[name])
         elif connection_id:
-            return Nic(self.nic_connection_id_map[connection_id])
+            nic_instance = Nic(self.nic_connection_id_map[connection_id])
         else:
-            raise NameError("No NIC identifier specified!")
+            raise NameError("no NIC identifier specified")
+
+        return nic_instance

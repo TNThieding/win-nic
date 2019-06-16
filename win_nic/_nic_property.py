@@ -1,6 +1,6 @@
 ﻿"""Module containing NicProperty class."""
 
-import win_nic.utils as utils
+import win_nic._utils as utils
 from win_nic.enums.nic_adapter_type import NicAdapterType
 from win_nic.enums.nic_availability import NicAvailability
 from win_nic.enums.nic_config_manager_error_code import NicConfigManagerErrorCode
@@ -8,24 +8,18 @@ from win_nic.enums.nic_net_connection_status import NicNetConnectionStatus
 
 
 # pylint: disable=too-many-public-methods
-class NicProperty(object):
+class NicProperty:
 
     """Windows network interface card (NIC) property class.
 
-    :param int index: Index number of the network adapter, as stored in the system registry.
+    :param int index: index number of the network adapter (as stored in the system registry)
 
     """
 
-    NULL_ATR_MSG = "NIC does not currently have attribute data for {}!"
+    NULL_ATR_MSG = "undefined NIC attribute {}"
 
     def __init__(self, index):
         self.index = index
-
-    def __repr__(self):
-        return "<'win_nic.nic_property.NicProperty(index=" + str(self.index) + ")'>"
-
-    def __str__(self):
-        return self.caption + " Property Handler"
 
     def _get_atr_win32_networkadapterconfiguration(self, attribute):
         wmic_args = ['path', 'win32_networkadapterconfiguration', 'where',
