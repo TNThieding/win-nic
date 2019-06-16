@@ -1,6 +1,6 @@
-=============
+#############
 API Reference
-=============
+#############
 
 .. _Win32_NetworkAdapter: https://msdn.microsoft.com/en-us/library/aa394216.aspx/
 .. _Win32_NetworkAdapterConfiguration: https://msdn.microsoft.com/en-us/library/aa394217.aspx/
@@ -13,8 +13,8 @@ Classes
 *******
 
 * :ref:`modindex`
-* :doc:`win_nic.network_adapters.NetworkAdapters <win_nic/network_adapters>`
-* :doc:`win_nic.nic.Nic <win_nic/nic>`
+* :doc:`win_nic.NetworkAdapters <win_nic/network_adapters>`
+* :doc:`win_nic.Nic <win_nic/nic>`
 
 ***********************
 NIC Instance Attributes
@@ -89,7 +89,7 @@ NIC Instance Methods
 
 Refer to Microsoft Developer Network's pages on the Win32_NetworkAdapter_ and
 Win32_NetworkAdapterConfiguration_ classes for further information about the methods
-listed below. 
+listed below.
 
 +-----------------------------------+------------------------------------------------------------------+--------------------------------+----------------------------------------+-----------------------------+
 | NIC Instance Method               | Windows Class and Method                                         | Admin Access Required?         | Parameters (In Order)                  | Returns                     |
@@ -110,8 +110,8 @@ listed below.
 +-----------------------------------+------------------------------------------------------------------+--------------------------------+----------------------------------------+-----------------------------+
 
 .. tip:: Decode a Windows error code by running ``net helpmsg #``, where ``#`` is the
-         integer return value. 
-         
+         integer return value.
+
 .. tip:: When using a method requiring administrative privileges, run the script
          from an administrative command prompt by navigating to a command prompt shortcut,
          right clicking it, and choosing "Run as administrator" from the menu.

@@ -1,4 +1,4 @@
-﻿"""Module containing utilities, such as parsers and executors."""
+﻿"""Module containing utilities (e.g. parsers and executors)."""
 
 import os
 import subprocess
@@ -14,6 +14,10 @@ def run_netsh_command(netsh_args):
 def run_wmic_command(wmic_args):
     """Execute a WMIC command and return the output."""
     wmic_response = subprocess.check_output(['wmic'] + wmic_args)
+
+    if isinstance(wmic_response, bytes):
+        wmic_response = wmic_response.decode('utf-8')
+
     return _strip_wmic_response(wmic_response)
 
 
@@ -25,5 +29,5 @@ def parse_array(raw_array):
 
 
 def _strip_wmic_response(wmic_resp):
-    # Strip and remove header row (if attribute) or call log (if method).
+    """Strip and remove header row (if attribute) or call log (if method)."""
     return [line.strip() for line in wmic_resp.split('\n') if line.strip() != ''][1:]
