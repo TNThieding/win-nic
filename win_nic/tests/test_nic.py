@@ -1,5 +1,6 @@
 """Module containing NIC class unit tests."""
 
+import textwrap
 from unittest import TestCase
 from unittest.mock import patch
 
@@ -52,7 +53,7 @@ class TestNic(TestCase):
             win32_networkadapter_base_method_cmd + 'Disable': 'Method execution successful.\nOut Parameters:\nInstance of __PARAMETERS\n{\n       ReturnValue = 5;\n};',
             win32_networkadapter_base_method_cmd + 'Enable': 'Method execution successful.\nOut Parameters:\nInstance of __PARAMETERS\n{\n       ReturnValue = 5;\n};',
         }
-        return wmic_responses[command]
+        return bytes(wmic_responses[command], 'utf-8')
 
     # pylint: disable=no-self-argument, line-too-long
     def _mock_null_atr(args):
@@ -63,7 +64,7 @@ class TestNic(TestCase):
             win32_networkadapter_base_attribute_cmd + 'Name': 'MockNull\n',
             win32_networkadapterconfiguration_base_attribute_cmd + 'IPAddress': 'MockNull\n',
         }
-        return wmic_responses[command]
+        return bytes(wmic_responses[command], 'utf-8')
 
     # pylint: disable=no-self-argument, line-too-long
     def _mock_call(args, stdout):
@@ -73,7 +74,7 @@ class TestNic(TestCase):
             netsh_base_cmd + 'set address name="Local Area Connection 0" source=dhcp': '0',
             netsh_base_cmd + 'set address name="Local Area Connection 0" static 192.168.0.2 255.255.255.0 192.168.0.1': '0',
         }
-        return netsh_responses[args]
+        return bytes(netsh_responses[args], 'utf-8')
 
     @patch('subprocess.check_output', side_effect=_mock_check_output)
     def setUp(self, mocked_check_output):  # pylint: disable=arguments-differ
@@ -113,14 +114,26 @@ class TestNic(TestCase):
         """Test config_manager_user_config property of the Nic class."""
         self.assertFalse(self.test_nic.config_manager_user_config)
 
+    def test_dunder_dir(self):
+        """Test dir magic method of the Nic class."""
+        assert '\n'.join(textwrap.wrap(str(dir(self.test_nic)), width=80)) == Baseline("""
+        ['_ip_address_raw', 'adapter_type', 'availability', 'caption',
+        'config_manager_error_code', 'config_manager_user_config', 'description',
+        'device_id', 'error_cleared', 'error_description', 'guid', 'index', 'installed',
+        'interface_index', 'last_error_code', 'mac_address', 'manufacturer', 'name',
+        'net_connection_id', 'net_connection_status', 'physical_adapter',
+        'pnp_device_id', 'power_management_supported', 'product_name', 'service_name',
+        'speed']
+        """)
+
     def test_dunder_repr(self):
-        """Test repr magic method property of the NIC class."""
+        """Test repr magic method of the NIC class."""
         self.assertEqual(repr(self.test_nic),
                          Baseline("""<'win_nic.Nic(index=0)'>"""))
 
     @patch('subprocess.check_output', side_effect=_mock_check_output)
     def test_dunder_str(self, mocked_check_output):
-        """Test string magic method property of the Nic class."""
+        """Test string magic method of the Nic class."""
         self.assertEqual(str(self.test_nic), Baseline("""[00000000] Dummy Adapter"""))
 
     @patch('subprocess.check_output', side_effect=_mock_check_output)
@@ -247,6 +260,8 @@ class TestNic(TestCase):
         """Test product_name property of the Nic class."""
         self.assertEqual(self.test_nic.product_name,
                          Baseline("""Dummy Adapter"""))
+        with self.assertRaisesRegex(AttributeError, "'Nic' attribute 'product_name' is not settable"):
+            self.test_nic.product_name = "New Name"
 
     @patch('subprocess.check_output', side_effect=_mock_check_output)
     def test_service_name(self, mocked_check_output):

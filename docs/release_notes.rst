@@ -2,6 +2,14 @@
 Release Notes
 #############
 
+**************************************************************************
+[2.0.1] Improve under-the-hood attribute access architecture. (2019-06-18)
+**************************************************************************
+
+Previously, the package supported attribute access with object-oriented design hand-crafted ``@property`` directives.
+Now, the package leverages Python built-in methods (e.g. ``__getattr__``) to facilitate attribute access in a more
+maintainable and Pythonic manner.
+
 ******************************************************************************************
 [2.0.0] Remove ``property`` and ``method`` members and drop Python 2 support. (2019-06-16)
 ******************************************************************************************
