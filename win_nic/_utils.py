@@ -13,11 +13,7 @@ def run_netsh_command(netsh_args):
 
 def run_wmic_command(wmic_args):
     """Execute a WMIC command and return the output."""
-    wmic_response = subprocess.check_output(['wmic'] + wmic_args)
-
-    if isinstance(wmic_response, bytes):
-        wmic_response = wmic_response.decode('utf-8')
-
+    wmic_response = subprocess.check_output(['wmic'] + wmic_args).decode('utf-8')
     return _strip_wmic_response(wmic_response)
 
 

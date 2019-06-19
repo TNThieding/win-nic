@@ -29,7 +29,7 @@ class TestNic(TestCase):
             'wmic nic get Index,NetConnectionID': ('Index  NetConnectionID\n0      Local Area Con' +
                                                    'nection\n1      Wireless Area Connection'),
         }
-        return wmic_responses[command]
+        return bytes(wmic_responses[command], 'utf-8')
 
     @patch('subprocess.check_output', side_effect=_mock_check_output)
     def setUp(self, mocked_check_output):  # pylint: disable=arguments-differ
